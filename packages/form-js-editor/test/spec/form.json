@@ -1,0 +1,6 @@
+{
+  "$schema": "../../../form-json-schema/resources/schema.json",
+  "id": "Form_1",
+  "type": "default",
+  "components": []
+}
