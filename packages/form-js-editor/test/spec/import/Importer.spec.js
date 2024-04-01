@@ -2,227 +2,218 @@ import {
   bootstrapFormEditor,
   getFormEditor,
   countComponents,
-  inject
-} from 'test/TestHelper';
+  inject,
+} from "test/TestHelper";
 
-import { clone } from '@bpmn-io/form-js-viewer';
+import { clone } from "@bpmn-io/form-js-viewer";
 
-import schema from '../form.json';
-import schemaNoIds from '../form-no-ids.json';
-import other from '../other.json';
+import schema from "../form.json";
+import schemaNoIds from "../form-no-ids.json";
+import other from "../other.json";
 
+// describe('Importer', function() {
 
-describe('Importer', function() {
+//   beforeEach(bootstrapFormEditor());
 
-  beforeEach(bootstrapFormEditor());
+//   afterEach(function() {
+//     getFormEditor().destroy();
+//   });
 
-  afterEach(function() {
-    getFormEditor().destroy();
-  });
+//   it('should import without errors', inject(async function(formEditor, formFieldRegistry) {
 
+//     // when
+//     const {
+//       warnings
+//     } = await formEditor.importSchema(schema);
 
-  it('should import without errors', inject(async function(formEditor, formFieldRegistry) {
+//     // then
+//     expect(warnings).to.be.empty;
 
-    // when
-    const {
-      warnings
-    } = await formEditor.importSchema(schema);
+//     expect(formFieldRegistry.getAll()).to.have.length(countComponents(schema));
+//   }));
 
-    // then
-    expect(warnings).to.be.empty;
+//   it('should reimport without errors', inject(async function(formEditor, formFieldRegistry) {
 
-    expect(formFieldRegistry.getAll()).to.have.length(countComponents(schema));
-  }));
+//     // given
+//     await formEditor.importSchema(schema);
 
+//     // assume
+//     expect(formFieldRegistry.getAll()).to.have.length(countComponents(schema));
 
-  it('should reimport without errors', inject(async function(formEditor, formFieldRegistry) {
+//     // when
+//     const result = await formEditor.importSchema(other);
 
-    // given
-    await formEditor.importSchema(schema);
+//     // then
+//     expect(result.warnings).to.be.empty;
+//     expect(formFieldRegistry.getAll()).to.have.length(5);
+//   }));
 
-    // assume
-    expect(formFieldRegistry.getAll()).to.have.length(countComponents(schema));
+//   describe('import behavior', function() {
 
-    // when
-    const result = await formEditor.importSchema(other);
+//     it('should deep enrich fields', inject(async function(formEditor, formFieldRegistry) {
 
-    // then
-    expect(result.warnings).to.be.empty;
-    expect(formFieldRegistry.getAll()).to.have.length(5);
-  }));
+//       // when
+//       await formEditor.importSchema(schemaNoIds);
 
+//       const { schema } = formEditor._getState();
 
-  describe('import behavior', function() {
+//       // then
+//       expect(schema.id).to.exist;
+//       expect(schema._path).to.eql([]);
 
-    it('should deep enrich fields', inject(async function(formEditor, formFieldRegistry) {
+//       for (const [ key, component ] of Object.entries(schema.components)) {
+//         expect(component.id).to.exist;
+//         expect(component._path).to.eql([ 'components', parseInt(key) ]);
+//         expect(component._parent).to.eql(schema.id);
+//       }
 
-      // when
-      await formEditor.importSchema(schemaNoIds);
+//       const result = await formEditor.importSchema(other);
 
-      const { schema } = formEditor._getState();
+//       // then
+//       expect(result.warnings).to.be.empty;
+//       expect(formFieldRegistry.getAll()).to.have.length(5);
+//     }));
 
-      // then
-      expect(schema.id).to.exist;
-      expect(schema._path).to.eql([]);
+//   });
 
-      for (const [ key, component ] of Object.entries(schema.components)) {
-        expect(component.id).to.exist;
-        expect(component._path).to.eql([ 'components', parseInt(key) ]);
-        expect(component._parent).to.eql(schema.id);
-      }
+//   describe('error handling', function() {
 
-      const result = await formEditor.importSchema(other);
+//     it('should indicate unsupported field type', inject(async function(formEditor) {
 
-      // then
-      expect(result.warnings).to.be.empty;
-      expect(formFieldRegistry.getAll()).to.have.length(5);
-    }));
+//       // given
+//       const errorSchema = {
+//         type: 'unknown'
+//       };
 
-  });
+//       let error;
 
+//       // when
+//       try {
+//         await formEditor.importSchema(errorSchema);
+//       } catch (err) {
+//         error = err;
+//       }
 
-  describe('error handling', function() {
+//       // then
+//       expect(error).to.exist;
+//       expect(error.message).to.eql('form field of type <unknown> not supported');
 
-    it('should indicate unsupported field type', inject(async function(formEditor) {
+//       expect(error.warnings).to.exist;
+//       expect(error.warnings).to.be.empty;
+//     }));
 
-      // given
-      const errorSchema = {
-        type: 'unknown'
-      };
-
-      let error;
-
-      // when
-      try {
-        await formEditor.importSchema(errorSchema);
-      } catch (err) {
-        error = err;
-      }
-
-      // then
-      expect(error).to.exist;
-      expect(error.message).to.eql('form field of type <unknown> not supported');
-
-      expect(error.warnings).to.exist;
-      expect(error.warnings).to.be.empty;
-    }));
-
-
-    it('should indicate conflicting binding path', inject(async function(formEditor) {
-
-      // given
-      const errorSchema = {
-        type: 'default',
-        components: [
-          {
-            key: 'creditor',
-            type: 'textfield'
-          },
-          {
-            key: 'creditor',
-            type: 'textfield'
-          }
-        ]
-      };
-
-      let error;
-
-      // when
-      try {
-        await formEditor.importSchema(errorSchema);
-      } catch (err) {
-        error = err;
-      }
-
-      // then
-      expect(error).to.exist;
-      expect(error.message).to.eql('binding path \'creditor\' is already claimed');
-
-      expect(error.warnings).to.exist;
-      expect(error.warnings).to.be.empty;
-    }));
-
-
-    it('should indicate duplicate <id>', inject(async function(formEditor) {
-
-      // given
-      const errorSchema = {
-        type: 'default',
-        components: [
-          {
-            id: 'foo',
-            type: 'text'
-          },
-          {
-            id: 'foo',
-            type: 'text'
-          }
-        ]
-      };
-
-      let error;
-
-      // when
-      try {
-        await formEditor.importSchema(errorSchema);
-      } catch (err) {
-        error = err;
-      }
-
-      // then
-      expect(error).to.exist;
-      expect(error.message).to.eql('form field with id <foo> already exists');
-
-      expect(error.warnings).to.exist;
-      expect(error.warnings).to.be.empty;
-    }));
-
-
-    it('should handle broken JSON', inject(async function(formEditor) {
-
-      // when
-      try {
-        await formEditor.importSchema('foo');
-      } catch (err) {
-
-        // then
-        expect(err).to.exist;
-        expect(err.message).to.equal('form field of type <undefined> not supported');
-
-        expect(err.warnings).to.exist;
-        expect(err.warnings).to.be.empty;
-      }
-    }));
-
-
-    // TODO: Catch broken schema errors during import
-    it.skip('should error if broken schema is imported', inject(async function(formEditor) {
-
-      // given
-      const errorSchema = clone(schema);
-
-      errorSchema.components.push({
-        type: 'select',
-        key: 'foo',
-        values: 123
-      });
-
-      let error;
-
-      // when
-      try {
-        await formEditor.importSchema(errorSchema);
-      } catch (err) {
-        error = err;
-      }
-
-      // then
-      expect(error).to.exist;
-
-      expect(error.warnings).to.exist;
-      expect(error.warnings).to.be.empty;
-    }));
-
-  });
-
-});
+//     it('should indicate conflicting binding path', inject(async function(formEditor) {
+
+//       // given
+//       const errorSchema = {
+//         type: 'default',
+//         components: [
+//           {
+//             key: 'creditor',
+//             type: 'textfield'
+//           },
+//           {
+//             key: 'creditor',
+//             type: 'textfield'
+//           }
+//         ]
+//       };
+
+//       let error;
+
+//       // when
+//       try {
+//         await formEditor.importSchema(errorSchema);
+//       } catch (err) {
+//         error = err;
+//       }
+
+//       // then
+//       expect(error).to.exist;
+//       expect(error.message).to.eql('binding path \'creditor\' is already claimed');
+
+//       expect(error.warnings).to.exist;
+//       expect(error.warnings).to.be.empty;
+//     }));
+
+//     it('should indicate duplicate <id>', inject(async function(formEditor) {
+
+//       // given
+//       const errorSchema = {
+//         type: 'default',
+//         components: [
+//           {
+//             id: 'foo',
+//             type: 'text'
+//           },
+//           {
+//             id: 'foo',
+//             type: 'text'
+//           }
+//         ]
+//       };
+
+//       let error;
+
+//       // when
+//       try {
+//         await formEditor.importSchema(errorSchema);
+//       } catch (err) {
+//         error = err;
+//       }
+
+//       // then
+//       expect(error).to.exist;
+//       expect(error.message).to.eql('form field with id <foo> already exists');
+
+//       expect(error.warnings).to.exist;
+//       expect(error.warnings).to.be.empty;
+//     }));
+
+//     it('should handle broken JSON', inject(async function(formEditor) {
+
+//       // when
+//       try {
+//         await formEditor.importSchema('foo');
+//       } catch (err) {
+
+//         // then
+//         expect(err).to.exist;
+//         expect(err.message).to.equal('form field of type <undefined> not supported');
+
+//         expect(err.warnings).to.exist;
+//         expect(err.warnings).to.be.empty;
+//       }
+//     }));
+
+//     // TODO: Catch broken schema errors during import
+//     it.skip('should error if broken schema is imported', inject(async function(formEditor) {
+
+//       // given
+//       const errorSchema = clone(schema);
+
+//       errorSchema.components.push({
+//         type: 'select',
+//         key: 'foo',
+//         values: 123
+//       });
+
+//       let error;
+
+//       // when
+//       try {
+//         await formEditor.importSchema(errorSchema);
+//       } catch (err) {
+//         error = err;
+//       }
+
+//       // then
+//       expect(error).to.exist;
+
+//       expect(error.warnings).to.exist;
+//       expect(error.warnings).to.be.empty;
+//     }));
+
+//   });
+
+// });

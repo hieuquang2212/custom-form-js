@@ -26,12 +26,16 @@ import { Errors } from "./Errors";
 import { FormComponent } from "./FormComponent";
 import { FormField } from "./FormField";
 import { Upload } from "./form-fields/Upload";
+import { People } from "./form-fields/People";
+import { Priority } from "./form-fields/Priority";
 
 export { Label, Description, Errors };
 
 export {
   //Button,
   Upload,
+  People,
+  Priority,
   Checkbox,
   Checklist,
   Default,
@@ -64,6 +68,8 @@ export const formFields = [
   Checkbox,
   Datetime,
   Upload,
+  People,
+  Priority,
   // Button,
   //Checklist,
   Default,
