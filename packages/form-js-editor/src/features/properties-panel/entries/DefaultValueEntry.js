@@ -65,7 +65,11 @@ export function DefaultValueEntry(props) {
     component: DefaultValueSingleSelect,
     isEdited: isSelectEntryEdited,
     isDefaultVisible: isDefaultVisible(
-      (field) => field.type === "radio" || field.type === "select"
+      (field) =>
+        field.type === "radio" ||
+        field.type === "select" ||
+        field.type === "people" ||
+        field.type === "priority"
     ),
   });
 

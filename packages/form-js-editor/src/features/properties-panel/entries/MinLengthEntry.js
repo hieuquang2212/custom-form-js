@@ -2,7 +2,7 @@ import { get, set } from "min-dash";
 
 import { INPUTS } from "../Util";
 
-import { FeelNumberEntry, isFeelEntryEdited } from "@bpmn-io/properties-panel";
+import { NumberFieldEntry, isFeelEntryEdited } from "@bpmn-io/properties-panel";
 import { useService, useVariables } from "../hooks";
 
 const VALIDATION_TYPE_OPTIONS = {
@@ -67,7 +67,7 @@ function MinLength(props) {
 
   const variables = useVariables().map((name) => ({ name }));
 
-  return FeelNumberEntry({
+  return NumberFieldEntry({
     debounce,
     element: field,
     feel: "optional",

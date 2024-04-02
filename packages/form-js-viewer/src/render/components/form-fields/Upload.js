@@ -8,7 +8,7 @@ import { TemplatedInputAdorner } from "./parts/TemplatedInputAdorner";
 
 import { useFlushDebounce } from "../../hooks/useFlushDebounce";
 
-const type = "Upload";
+const type = "upload";
 
 export function Upload(props) {
   const {

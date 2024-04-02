@@ -6,7 +6,7 @@ import {
 } from "@bpmn-io/form-js-viewer";
 import { useService, useVariables } from "../hooks";
 import {
-  FeelTemplatingEntry,
+  TextFieldEntry,
   isFeelEntryEdited,
 } from "@bpmn-io/properties-panel";
 import { get } from "min-dash";
@@ -82,7 +82,7 @@ function Label(props) {
     return editField(field, path, value || "");
   };
 
-  return FeelTemplatingEntry({
+  return TextFieldEntry({
     debounce,
     element: field,
     getValue,
@@ -111,12 +111,12 @@ function DateLabel(props) {
     return editField(field, path, value || "");
   };
 
-  return FeelTemplatingEntry({
+  return TextFieldEntry({
     debounce,
     element: field,
     getValue,
     id,
-    label: "Date label",
+    label: "Nhãn",
     singleLine: true,
     setValue,
     variables,
@@ -140,12 +140,12 @@ function TimeLabel(props) {
     return editField(field, path, value || "");
   };
 
-  return FeelTemplatingEntry({
+  return TextFieldEntry({
     debounce,
     element: field,
     getValue,
     id,
-    label: "Time label",
+    label: "Nhãn",
     singleLine: true,
     setValue,
     variables,

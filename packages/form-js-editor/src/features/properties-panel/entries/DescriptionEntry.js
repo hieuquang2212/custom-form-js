@@ -4,10 +4,7 @@ import { INPUTS } from "../Util";
 
 import { useService, useVariables } from "../hooks";
 
-import {
-  FeelTemplatingEntry,
-  isFeelEntryEdited,
-} from "@bpmn-io/properties-panel";
+import { TextFieldEntry, isFeelEntryEdited } from "@bpmn-io/properties-panel";
 
 export function DescriptionEntry(props) {
   const { editField, field } = props;
@@ -43,7 +40,7 @@ function Description(props) {
     return editField(field, path, value);
   };
 
-  return FeelTemplatingEntry({
+  return TextFieldEntry({
     debounce,
     element: field,
     getValue,

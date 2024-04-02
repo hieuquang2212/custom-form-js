@@ -49,7 +49,7 @@ export const iconsByType = (type) => {
     table: TableIcon,
     upload: UploadIcon,
     people: PeopleIcon,
-    priority: PriorityIcon,
+    priority: TextfieldIcon,
     default: FormIcon,
   }[type];
 };

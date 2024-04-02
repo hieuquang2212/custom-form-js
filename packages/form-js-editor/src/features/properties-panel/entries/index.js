@@ -41,3 +41,4 @@ export { ColumnsExpressionEntry } from "./ColumnsExpressionEntry";
 export { StaticColumnsSourceEntry } from "./StaticColumnsSourceEntry";
 export { RequiredEntry } from "./RequiredEntry";
 export { MinLengthEntry } from "./MinLengthEntry";
+export { MaxLengthEntry } from "./MaxLengthEntry";
