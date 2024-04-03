@@ -49,23 +49,17 @@ export const PALETTE_GROUPS = [
 export function Palette(props) {
   const formFields = useService("formFields");
 
-  console.log({ formFields });
-
   const initialPaletteEntries = useRef(collectPaletteEntries(formFields));
 
   const [paletteEntries, setPaletteEntries] = useState(
     initialPaletteEntries.current
   );
 
-  console.log({ paletteEntries });
-
   const [searchTerm, setSearchTerm] = useState("");
 
   const inputRef = useRef();
 
   const groups = groupEntries(paletteEntries);
-
-  console.log({ groups });
 
   const simplifyString = useCallback((str) => {
     return str.toLowerCase().replace(/\s+/g, "");

@@ -66,17 +66,17 @@ function Key(props) {
         return "Vui lòng nhập trường này";
       }
 
-      if (!isValidDotPath(value)) {
-        return "Must be a variable or a dot separated path.";
-      }
+      // if (!isValidDotPath(value)) {
+      //   return "Must be a variable or a dot separated path.";
+      // }
 
-      if (hasIntegerPathSegment(value)) {
-        return "Must not contain numerical path segments.";
-      }
+      // if (hasIntegerPathSegment(value)) {
+      //   return "Must not contain numerical path segments.";
+      // }
 
-      if (isProhibitedPath(value)) {
-        return "Must not be a prohibited path.";
-      }
+      // if (isProhibitedPath(value)) {
+      //   return "Must not be a prohibited path.";
+      // }
 
       const replacements = {
         [field.id]: value.split("."),
@@ -93,9 +93,7 @@ function Key(props) {
       });
       pathRegistry.claimPath(oldPath, { isClosed: true, claimerId: field.id });
 
-      return canClaim
-        ? null
-        : "Must not conflict with other key/path assignments.";
+      return canClaim ? null : "ID này đã tồn tại";
     },
     [field, pathRegistry]
   );

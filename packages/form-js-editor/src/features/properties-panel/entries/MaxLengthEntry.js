@@ -53,8 +53,11 @@ export function MaxLengthEntry(props) {
     isEdited: isFeelEntryEdited,
     onChange,
     isDefaultVisible: (field) =>
-      INPUTS.includes(field.type) &&
-      (type === "textarea" || (type === "textfield" && isCustomValidation)),
+      (INPUTS.includes(field.type) &&
+        (type === "textarea" ||
+          type === "number" ||
+          (type === "textfield" && isCustomValidation))) ||
+      type === "number",
   });
 
   return entries;

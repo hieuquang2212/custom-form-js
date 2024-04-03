@@ -1,4 +1,4 @@
-import { GeneralGroup } from "./groups";
+import { GeneralGroup, OptionsGroups } from "./groups";
 
 import { hasEntryConfigured } from "./Util";
 
@@ -55,13 +55,11 @@ export class PropertiesProvider {
         //LayoutGroup(field, editField),
         // AppearanceGroup(field, editField),
         //SerializationGroup(field, editField),
-        //...OptionsGroups(field, editField, getService),
+        ...OptionsGroups(field, editField, getService),
         //ConstraintsGroup(field, editField),
         //ValidationGroup(field, editField),
         //CustomPropertiesGroup(field, editField),
       ].filter((group) => group != null);
-
-      console.log({ groups });
 
       this._filterVisibleEntries(groups, field, getService);
 

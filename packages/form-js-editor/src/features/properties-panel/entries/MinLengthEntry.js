@@ -54,7 +54,9 @@ export function MinLengthEntry(props) {
     onChange,
     isDefaultVisible: (field) =>
       INPUTS.includes(field.type) &&
-      (type === "textarea" || (type === "textfield" && isCustomValidation)),
+      (type === "textarea" ||
+        type === "number" ||
+        (type === "textfield" && isCustomValidation)),
   });
 
   return entries;
