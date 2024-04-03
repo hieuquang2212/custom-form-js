@@ -63,7 +63,7 @@ function Key(props) {
       }
 
       if (!isString(value) || value.length === 0) {
-        return "Must not be empty.";
+        return "Vui lòng nhập trường này";
       }
 
       if (!isValidDotPath(value)) {
@@ -105,7 +105,11 @@ function Key(props) {
     element: field,
     getValue,
     id,
-    label: "ID",
+    label: (
+      <span>
+        ID <span style={{ color: "red" }}>*</span>
+      </span>
+    ),
     setValue,
     validate,
   });

@@ -49,7 +49,6 @@ export function GeneralGroup(field, editField, getService) {
     ...KeyEntry({ field, editField, getService }),
     // ...PathEntry({ field, editField, getService }),
     // ...RepeatableEntry({ field, editField, getService }),
-    ...DefaultValueEntry({ field, editField }),
     // ...ActionEntry({ field, editField }),
     // ...DateTimeEntry({ field, editField }),
     // ...TextEntry({ field, editField, getService }),
@@ -70,6 +69,7 @@ export function GeneralGroup(field, editField, getService) {
     ...RequiredEntry({ field, editField, getService }),
     ...MinLengthEntry({ field, editField }),
     ...MaxLengthEntry({ field, editField }),
+    ...DefaultValueEntry({ field, editField }),
   ];
 
   if (entries.length === 0) {
@@ -78,7 +78,7 @@ export function GeneralGroup(field, editField, getService) {
 
   return {
     id: "general",
-    label: "General",
+    label: "Thuộc tính",
     entries,
   };
 }

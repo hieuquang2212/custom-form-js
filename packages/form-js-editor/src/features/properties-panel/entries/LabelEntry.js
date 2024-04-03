@@ -5,11 +5,9 @@ import {
   TIME_LABEL_PATH,
 } from "@bpmn-io/form-js-viewer";
 import { useService, useVariables } from "../hooks";
-import {
-  TextFieldEntry,
-  isFeelEntryEdited,
-} from "@bpmn-io/properties-panel";
-import { get } from "min-dash";
+import { TextFieldEntry, isFeelEntryEdited } from "@bpmn-io/properties-panel";
+import { get, isString } from "min-dash";
+import { useCallback } from "preact/hooks";
 
 export function LabelEntry(props) {
   const { field, editField } = props;
@@ -82,15 +80,35 @@ function Label(props) {
     return editField(field, path, value || "");
   };
 
+  const validate = useCallback(
+    (value) => {
+      if (value === field.key) {
+        return null;
+      }
+
+      if (!isString(value) || value.length === 0) {
+        return "Vui lòng nhập trường này";
+      }
+
+      return null;
+    },
+    [field]
+  );
+
   return TextFieldEntry({
     debounce,
     element: field,
     getValue,
     id,
-    label: "Nhãn",
+    label: (
+      <span>
+        Nhãn <span style={{ color: "red" }}>*</span>
+      </span>
+    ),
     singleLine: true,
     setValue,
     variables,
+    validate,
   });
 }
 
@@ -111,15 +129,35 @@ function DateLabel(props) {
     return editField(field, path, value || "");
   };
 
+  const validate = useCallback(
+    (value) => {
+      if (value === field.key) {
+        return null;
+      }
+
+      if (!isString(value) || value.length === 0) {
+        return "Vui lòng nhập trường này";
+      }
+
+      return null;
+    },
+    [field]
+  );
+
   return TextFieldEntry({
     debounce,
     element: field,
     getValue,
     id,
-    label: "Nhãn",
+    label: (
+      <span>
+        Nhãn <span style={{ color: "red" }}>*</span>
+      </span>
+    ),
     singleLine: true,
     setValue,
     variables,
+    validate,
   });
 }
 
@@ -140,15 +178,35 @@ function TimeLabel(props) {
     return editField(field, path, value || "");
   };
 
+  const validate = useCallback(
+    (value) => {
+      if (value === field.key) {
+        return null;
+      }
+
+      if (!isString(value) || value.length === 0) {
+        return "Vui lòng nhập trường này";
+      }
+
+      return null;
+    },
+    [field]
+  );
+
   return TextFieldEntry({
     debounce,
     element: field,
     getValue,
     id,
-    label: "Nhãn",
+    label: (
+      <span>
+        Nhãn <span style={{ color: "red" }}>*</span>
+      </span>
+    ),
     singleLine: true,
     setValue,
     variables,
+    validate,
   });
 }
 
